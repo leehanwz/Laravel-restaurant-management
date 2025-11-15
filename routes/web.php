@@ -2,9 +2,11 @@
 
 use Illuminate\Support\Facades\Route;
 
-// Controller Routes
+// Controller Admin Routes
 
-use App\Http\Controllers\admin\DashboardController;
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\MenuController;
+use App\Http\Controllers\Admin\ProductController;
 
 // Shop Routes
 use App\Http\Controllers\shop\HomeController;
@@ -31,5 +33,10 @@ Route::prefix('/')->group(function () {
 Route::prefix('admin')->name('admin.')->group(
     function () {
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+        // Menu Management
+        Route::resource('menu', MenuController::class);
+        // Product Management
+        Route::resource('product', ProductController::class);
     }
 );

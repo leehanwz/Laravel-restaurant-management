@@ -44,68 +44,26 @@
     </div>
     <hr>
       <ul class="app-menu">
-        <li><a class="app-menu__item " href="{{route('admin.dashboard')}}">
+        <li>
+          <a class="app-menu__item " href="{{route('admin.dashboard')}}">
             <i class='app-menu__icon bx bx-home'></i>
             <span class="app-menu__label">Trang chủ</span>
           </a>
         </li>
-        {{-- <li>
-          <a class="app-menu__item " href="{{route('admin.danh-muc.index')}}">
-            <i class='app-menu__icon bx bx-home'></i>
-            <span class="app-menu__label">Quản lý danh mục Món</span>
-          </a>
-        </li>
+
         <li>
-          <a class="app-menu__item" href="{{route('admin.san-pham.index')}}">
-            <i class='app-menu__icon bx bx-purchase-tag-alt'></i>
-            <span class="app-menu__label">Quản lý món ăn</span>
+          <a class="app-menu__item " href="{{route('admin.menu.index')}}">
+            <i class='app-menu__icon bx bx-category'></i>
+            <span class="app-menu__label">Quản Lí danh mục</span>
           </a>
         </li>
 
-          <a class="app-menu__item" href="{{route('admin.combo-buffet.index')}}">
-              <i class='app-menu__icon bx bx-task'></i>
-              <span class="app-menu__label">Quản lý combo buffet</span>
-          </a>
         <li>
-          <a class="app-menu__item " href="{{route('admin.mon-trong-combo.index')}}">
-            <i class='app-menu__icon bx bx-table'></i>
-            <span class="app-menu__label">Quản lý món trong combo</span>
+          <a class="app-menu__item " href="{{route('admin.product.index')}}">
+            <i class='app-menu__icon bx bx-food-menu'></i>
+            <span class="app-menu__label">Quản Lí sản phẩm</span>
           </a>
         </li>
-        <li>
-          <a class="app-menu__item " href="{{route('admin.khu-vuc-ban-an')}}">
-            <i class='app-menu__icon bx bx-table'></i>
-            <span class="app-menu__label">Quản lý khu vực</span>
-          </a>
-        </li>
-        <li>
-          <a class="app-menu__item " href="{{route('admin.hoa-don.index')}}">
-            <i class='app-menu__icon bx bx-table'></i>
-            <span class="app-menu__label">Quản lý hóa đơn</span>
-          </a>
-
-        💡 ĐÃ THÊM ROUTE ĐẶT BÀN MỚI VÀO ĐÂY
-        <li>
-          <a class="app-menu__item" href="{{ route('admin.dat-ban.index') }}">
-            <i class='app-menu__icon bx bx-calendar-check'></i>
-            <span class="app-menu__label">Quản lý Đặt Bàn</span>
-          </a>
-        </li> --}}
-
-        {{-- <li>
-          <a class="app-menu__item " href="{{route('admin.nhan-vien')}}">
-            <i class='app-menu__icon bx bx-id-card'></i>
-            <span class="app-menu__label">Quản lý người dùng</span>
-          </a>
-        </li>
-        <li>
-          <a class="app-menu__item" href="{{route('admin.don-hang')}}">
-            <i class='app-menu__icon bx bx-task'></i>
-            <span class="app-menu__label">Quản lý đơn hàng</span>
-          </a>
-        </li>
-        <li> --}}
-
       </ul>
   </aside>
 
