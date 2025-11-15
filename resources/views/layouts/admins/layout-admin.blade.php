@@ -64,6 +64,13 @@
             <span class="app-menu__label">Quản Lí sản phẩm</span>
           </a>
         </li>
+
+        <li>
+          <a class="app-menu__item " href="{{route('admin.drink.index')}}">
+            <i class='app-menu__icon bx bx-coffee-togo'></i>
+            <span class="app-menu__label">Quản Lí đồ uống</span>
+          </a>
+        </li>
       </ul>
   </aside>
 

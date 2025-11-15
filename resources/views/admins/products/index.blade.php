@@ -46,7 +46,7 @@
                                 <th>Giá</th>
                                 <th>Size</th>
                                 <th>Ảnh</th>
-                                <th>Tồn kho</th>
+                                <th>Số lượng còn</th>
                                 <th>Trạng thái</th>
                                 <th>Thao tác</th>
                             </tr>

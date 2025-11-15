@@ -125,6 +125,14 @@
                                 </tr>
 
                                 <tr>
+                                    <th>Số lượng</th>
+                                    <td>
+                                        <span class="fw-bold {{ $product->quantity > 0 ? 'text-primary' : 'text-danger' }}">
+                                            {{ $product->quantity }} Chiếc
+                                        </span>
+                                </tr>
+
+                                <tr>
                                     <th>Trạng thái</th>
                                     <td>
                                         @if(isset($product->is_active) && !$product->is_active)

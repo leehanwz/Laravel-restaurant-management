@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\MenuController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\DrinkController;
 
 // Shop Routes
 use App\Http\Controllers\shop\HomeController;
@@ -38,5 +39,7 @@ Route::prefix('admin')->name('admin.')->group(
         Route::resource('menu', MenuController::class);
         // Product Management
         Route::resource('product', ProductController::class);
+        // Drink Management
+        Route::resource('drink', DrinkController::class);
     }
 );
