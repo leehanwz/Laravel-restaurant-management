@@ -29,4 +29,12 @@ class Product extends Model
     {
         return $this->belongsTo(MenuCategory::class, 'menu_category_id');
     }
+
+    
+    public function combos()
+    {
+        return $this->belongsToMany(Combos::class, 'combo_items', 'product_id', 'combo_id')
+            ->withPivot('quantity')
+            ->withTimestamps();
+    }
 }

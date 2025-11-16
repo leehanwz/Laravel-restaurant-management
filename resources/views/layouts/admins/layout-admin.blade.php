@@ -23,8 +23,7 @@
 
 <body onload="time()" class="app sidebar-mini rtl">
   <header class="app-header">
-    <a class="app-sidebar__toggle" href="#" data-toggle="sidebar"
-      aria-label="Hide Sidebar"></a>
+    <a class="app-sidebar__toggle" href="#" data-toggle="sidebar" aria-label="Hide Sidebar"></a>
     <ul class="app-nav">
 
 
@@ -43,35 +42,49 @@
       </div>
     </div>
     <hr>
-      <ul class="app-menu">
-        <li>
-          <a class="app-menu__item " href="{{route('admin.dashboard')}}">
-            <i class='app-menu__icon bx bx-home'></i>
-            <span class="app-menu__label">Trang chủ</span>
-          </a>
-        </li>
+    <ul class="app-menu">
+      <li>
+        <a class="app-menu__item " href="{{route('admin.dashboard')}}">
+          <i class='app-menu__icon bx bx-home'></i>
+          <span class="app-menu__label">Trang chủ</span>
+        </a>
+      </li>
 
-        <li>
-          <a class="app-menu__item " href="{{route('admin.menu.index')}}">
-            <i class='app-menu__icon bx bx-category'></i>
-            <span class="app-menu__label">Quản Lí danh mục</span>
-          </a>
-        </li>
+      <li>
+        <a class="app-menu__item " href="{{route('admin.menu.index')}}">
+          <i class='app-menu__icon bx bx-category'></i>
+          <span class="app-menu__label">Quản Lí danh mục</span>
+        </a>
+      </li>
 
-        <li>
-          <a class="app-menu__item " href="{{route('admin.product.index')}}">
-            <i class='app-menu__icon bx bx-food-menu'></i>
-            <span class="app-menu__label">Quản Lí sản phẩm</span>
-          </a>
-        </li>
+      <li>
+        <a class="app-menu__item " href="{{route('admin.product.index')}}">
+          <i class='app-menu__icon bx bx-food-menu'></i>
+          <span class="app-menu__label">Quản Lí sản phẩm</span>
+        </a>
+      </li>
 
-        <li>
-          <a class="app-menu__item " href="{{route('admin.drink.index')}}">
-            <i class='app-menu__icon bx bx-coffee-togo'></i>
-            <span class="app-menu__label">Quản Lí đồ uống</span>
-          </a>
-        </li>
-      </ul>
+      <li>
+        <a class="app-menu__item " href="{{route('admin.drink.index')}}">
+          <i class='app-menu__icon bx bx-coffee-togo'></i>
+          <span class="app-menu__label">Quản Lí đồ uống</span>
+        </a>
+      </li>
+
+      <li>
+        <a class="app-menu__item " href="{{route('admin.combos.index')}}">
+          <i class='app-menu__icon bx bx-gift'></i>
+          <span class="app-menu__label">Quản Lí combo</span>
+        </a>
+      </li>
+
+     <li>
+      <a href="{{ route('admin.combos.items.selectCombo') }}" class="app-menu__item">
+        <i class='app-menu__icon bx bx-box'></i>
+        <span class="app-menu__label">Quản Lí món trong combo</span>
+      </a>
+    </li>
+    </ul>
   </aside>
 
   <main>
@@ -90,7 +103,9 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css"></script>
   <script type="text/javascript" src="{{ asset('admin/doc/js/plugins/jquery.dataTables.min.js') }}"></script>
   <script type="text/javascript" src="{{ asset('admin/doc/js/plugins/dataTables.bootstrap.min.js') }}"></script>
-  <script type="text/javascript">$('#sampleTable').DataTable();</script>
+  <script type="text/javascript">
+    $('#sampleTable').DataTable();
+  </script>
 
   {{-- thời gian thực --}}
   <script type="text/javascript">
@@ -152,4 +167,5 @@
   {{-- script riêng các trang --}}
   @yield('script')
 </body>
+
 </html>
