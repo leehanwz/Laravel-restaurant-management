@@ -2,62 +2,106 @@
 
 use Illuminate\Support\Facades\Route;
 
-// Controller Admin Routes
-use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\Admin\MenuController;
-use App\Http\Controllers\Admin\ProductController;
-use App\Http\Controllers\Admin\DrinkController;
-use App\Http\Controllers\Admin\ComboController;
-use App\Http\Controllers\Admin\ComboItemController;
+// Controllers
+use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\Cashier\CashierController;
+use App\Http\Controllers\Kitchen\KitchenController;
+use App\Http\Controllers\Table\TableController;
+use App\Http\Controllers\Customer\CustomerController;
+use App\Http\Controllers\Shop\HomeController;
 
-// Shop Routes
-use App\Http\Controllers\shop\HomeController;
+// Breeze / auth routes
+require __DIR__ . '/auth.php';
 
 /*
 |--------------------------------------------------------------------------
-| Web Routes
+| CLIENT SITE
 |--------------------------------------------------------------------------
 */
 
-// ==================== CLIENT SITE ====================
-Route::prefix('/')->group(function () {
-    Route::get('/', [HomeController::class, 'index'])->name('home');
-});
+// Trang chủ public
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
-// ==================== ADMIN SITE ====================
-Route::prefix('admin')->name('admin.')->group(function () {
+/*
+|--------------------------------------------------------------------------
+| ADMIN SITE (role 1)
+|--------------------------------------------------------------------------
+*/
+Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:1'])->group(function () {
+    Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
 
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    // Ví dụ resource quản lý menu, product, drink, combo
+    Route::resource('menu', \App\Http\Controllers\Admin\MenuController::class);
+    Route::resource('product', \App\Http\Controllers\Admin\ProductController::class);
+    Route::resource('drink', \App\Http\Controllers\Admin\DrinkController::class);
+    Route::resource('combos', \App\Http\Controllers\Admin\ComboController::class);
 
-    // Menu Management
-    Route::resource('menu', MenuController::class);
-
-    // Product Management
-    Route::resource('product', ProductController::class);
-
-    // Drink Management
-    Route::resource('drink', DrinkController::class);
-
-    // Combo Management
-    Route::resource('combos', ComboController::class);
-
-    // ==================== Combo Item Management ====================
-    // Trang chọn combo trước khi quản lý món
-    Route::get('combos/items/select', [ComboItemController::class, 'selectCombo'])
+    // Combo Item Management
+    Route::get('combos/items/select', [\App\Http\Controllers\Admin\ComboItemController::class, 'selectCombo'])
         ->name('combos.items.selectCombo');
 
-    // Quản lý món trong combo đã chọn
     Route::prefix('combos')->group(function () {
-        Route::get('{comboId}/items', [ComboItemController::class, 'index'])
+        Route::get('{comboId}/items', [\App\Http\Controllers\Admin\ComboItemController::class, 'index'])
             ->name('combos.items.index');
-
-        Route::post('items', [ComboItemController::class, 'store'])
+        Route::post('items', [\App\Http\Controllers\Admin\ComboItemController::class, 'store'])
             ->name('combos.items.store');
-
-        Route::put('items/{comboId}/{productId}', [ComboItemController::class, 'update'])
+        Route::put('items/{comboId}/{productId}', [\App\Http\Controllers\Admin\ComboItemController::class, 'update'])
             ->name('combos.items.update');
-
-        Route::delete('items/{comboId}/{productId}', [ComboItemController::class, 'destroy'])
+        Route::delete('items/{comboId}/{productId}', [\App\Http\Controllers\Admin\ComboItemController::class, 'destroy'])
             ->name('combos.items.destroy');
     });
 });
+
+/*
+|--------------------------------------------------------------------------
+| CASHIER SITE (role 2)
+|--------------------------------------------------------------------------
+*/
+// Route::prefix('cashier')->name('cashier.')->middleware(['auth', 'role:2'])->group(function () {
+//     Route::get('/dashboard', [CashierController::class, 'index'])->name('dashboard');
+// });
+
+/*
+|--------------------------------------------------------------------------
+| KITCHEN SITE (role 3)
+|--------------------------------------------------------------------------
+*/
+// Route::prefix('kitchen')->name('kitchen.')->middleware(['auth', 'role:3'])->group(function () {
+//     Route::get('/dashboard', [KitchenController::class, 'index'])->name('dashboard');
+// });
+
+/*
+|--------------------------------------------------------------------------
+| TABLE SITE (role 4)
+|--------------------------------------------------------------------------
+*/
+// Route::prefix('table')->name('table.')->middleware(['auth', 'role:4'])->group(function () {
+//     Route::get('/dashboard', [TableController::class, 'index'])->name('dashboard');
+// });
+
+/*
+|--------------------------------------------------------------------------
+| CUSTOMER SITE (role 5)
+|--------------------------------------------------------------------------
+*/
+Route::prefix('customer')->name('customer.')->middleware(['auth', 'role:5'])->group(function () {
+    Route::get('/dashboard', [CustomerController::class, 'index'])->name('dashboard');
+});
+
+/*
+|--------------------------------------------------------------------------
+| BREEZE DASHBOARD & PROFILE
+|--------------------------------------------------------------------------
+*/
+Route::get('/dashboard', function () {
+    // Nếu muốn có dashboard chung, ví dụ cho user đã verify email
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [App\Http\Controllers\ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [App\Http\Controllers\ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [App\Http\Controllers\ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+

@@ -1,14 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Shop;
+namespace App\Http\Controllers\Customer;
 
 use App\Http\Controllers\Controller;
 
-class HomeController extends Controller
+class CustomerController extends Controller
 {
     public function index()
     {
         return view('layouts.Shop.layout-shop');
     }
-
 }
