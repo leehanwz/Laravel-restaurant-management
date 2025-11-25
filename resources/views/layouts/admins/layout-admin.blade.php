@@ -78,10 +78,17 @@
         </a>
       </li>
 
+      <li>
+        <a href="{{ route('admin.combos.items.selectCombo') }}" class="app-menu__item">
+          <i class='app-menu__icon bx bx-box'></i>
+          <span class="app-menu__label">Quản Lí món trong combo</span>
+        </a>
+      </li>
+
      <li>
-      <a href="{{ route('admin.combos.items.selectCombo') }}" class="app-menu__item">
-        <i class='app-menu__icon bx bx-box'></i>
-        <span class="app-menu__label">Quản Lí món trong combo</span>
+      <a class="app-menu__item" href="{{ route('admin.khu-vuc-ban-an') }}">
+        <i class='app-menu__icon bx bx-building-house'></i>
+        <span class="app-menu__label">Quản Lí Khu Vực & Bàn Ăn</span>
       </a>
     </li>
     </ul>

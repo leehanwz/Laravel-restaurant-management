@@ -50,6 +50,17 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:1'])->group(fu
         Route::delete('items/{comboId}/{productId}', [\App\Http\Controllers\Admin\ComboItemController::class, 'destroy'])
             ->name('combos.items.destroy');
     });
+
+    // Quản lý khu vực
+    Route::resource('areas', \App\Http\Controllers\Admin\AreaController::class);
+    Route::post('areas/{id}/restore', [\App\Http\Controllers\Admin\AreaController::class, 'restore'])
+        ->name('areas.restore');
+    // Quản lý bàn
+    Route::resource('tables', \App\Http\Controllers\Admin\TableController::class);
+    Route::post('tables/{id}/restore', [\App\Http\Controllers\Admin\TableController::class, 'restore'])
+        ->name('tables.restore');
+    // Form khu và bàn ăn chung   
+    Route::get('khu-vuc-ban-an', [\App\Http\Controllers\Admin\AreaController::class, 'dashboard'])->name('khu-vuc-ban-an');      
 });
 
 /*
