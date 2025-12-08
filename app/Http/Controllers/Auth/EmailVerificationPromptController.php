@@ -27,7 +27,7 @@ class EmailVerificationPromptController extends Controller
                 case 4:
                     return redirect()->route('table.dashboard');
                 case 5:
-                    return redirect()->intended(route('home'));
+                    return redirect()->intended(route('Shop.home'));
                 default:
                     return redirect('/');
             }

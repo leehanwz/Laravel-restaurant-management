@@ -61,7 +61,28 @@
                                 required>
                         </div>
 
-                        <div class="form-group col-md-12">
+                        <div class="form-group col-md-6">
+                            <label class="control-label">Trạng Thái Bàn (*)</label>
+                            <select class="form-control" name="trang_thai" required>
+                                <option value="trong" {{ old('trang_thai') == 'trong' ? 'selected' : '' }}>Trống
+                                </option>
+                                <option value="da_dat_chua_den"
+                                    {{ old('trang_thai') == 'da_dat_chua_den' ? 'selected' : '' }}>
+                                    Khách đã đặt, chưa đến
+                                </option>
+                                <option value="phuc_vu" {{ old('trang_thai') == 'phuc_vu' ? 'selected' : '' }}>
+                                    Khách đang phục vụ
+                                </option>
+                                <option value="da_xong" {{ old('trang_thai') == 'da_xong' ? 'selected' : '' }}>Đã xong
+                                </option>
+                                <option value="khong_su_dung"
+                                    {{ old('trang_thai') == 'khong_su_dung' ? 'selected' : '' }}>
+                                    Không sử dụng
+                                </option>
+                            </select>
+                        </div>
+
+                        <div class="form-group col-md-12 mt-3">
                             <button class="btn btn-save" type="submit">Lưu lại</button>
                             <a class="btn btn-cancel" href="{{ route('admin.tables.index') }}">Hủy bỏ</a>
                         </div>

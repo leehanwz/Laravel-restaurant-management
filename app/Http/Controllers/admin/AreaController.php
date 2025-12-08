@@ -22,13 +22,11 @@ class AreaController extends Controller
         return view('admins.areas.index', compact('areas'));
     }
 
-    // Form tạo khu vực
     public function create()
     {
         return view('admins.areas.create');
     }
 
-    // Lưu khu vực mới
     public function store(AreaRequest $request)
     {
         Area::create($request->validated());
@@ -37,13 +35,11 @@ class AreaController extends Controller
             ->with('success', 'Khu vực đã được thêm thành công!');
     }
 
-    // Form sửa khu vực
     public function edit(Area $area)
     {
         return view('admins.areas.edit', compact('area'));
     }
 
-    // Cập nhật khu vực
     public function update(AreaRequest $request, Area $area)
     {
         $area->update($request->validated());
@@ -52,7 +48,6 @@ class AreaController extends Controller
             ->with('success', 'Khu vực đã được cập nhật thành công!');
     }
 
-    // Xóa khu vực (soft delete)
     public function destroy(Area $area)
     {
         $area->delete();
@@ -61,7 +56,6 @@ class AreaController extends Controller
             ->with('success', 'Khu vực đã được xóa thành công!');
     }
 
-    // Khôi phục khu vực đã xóa
     public function restore($id)
     {
         $area = Area::withTrashed()->findOrFail($id);

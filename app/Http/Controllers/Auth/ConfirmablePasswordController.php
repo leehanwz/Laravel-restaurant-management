@@ -51,7 +51,7 @@ class ConfirmablePasswordController extends Controller
             case 4: // Bàn
                 return redirect()->intended(route('table.dashboard'));
             case 5: // Khách
-                return redirect()->intended(route('home'));
+                return redirect()->intended(route('Shop.home'));
             default:
                 Auth::logout();
                 return redirect('/')->withErrors(['password' => 'Role không hợp lệ.']);

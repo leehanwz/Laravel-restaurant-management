@@ -38,7 +38,7 @@ class VerifyEmailController extends Controller
             case 4:
                 return redirect()->route('table.dashboard')->with('verified', 1);
             case 5:
-                return redirect()->route('home')->with('verified', true);
+                return redirect()->route('login')->with('verified', true);
             default:
                 Auth::logout();
                 return redirect('/')->withErrors(['email' => 'Role không hợp lệ.']);

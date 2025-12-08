@@ -63,11 +63,27 @@
                     @php
                     $badgeClass = 'bg-light text-dark';
                     $trangThaiDisplay = $ban->trang_thai;
-                    switch (strtolower($ban->trang_thai)) {
-                    case 'trong': $badgeClass='bg-success'; $trangThaiDisplay='Trống'; break;
-                    case 'dang_phuc_vu': $badgeClass='bg-danger text-white'; $trangThaiDisplay='Đang phục vụ'; break;
-                    case 'da_dat': $badgeClass='bg-warning'; $trangThaiDisplay='Đã đặt'; break;
-                    case 'khong_su_dung': $badgeClass='bg-secondary text-white'; $trangThaiDisplay='Không sử dụng';
+
+                    switch ($ban->trang_thai) {
+                    case 'trong':
+                    $badgeClass = 'bg-success';
+                    $trangThaiDisplay = 'Trống';
+                    break;
+                    case 'da_dat_chua_den':
+                    $badgeClass = 'bg-warning';
+                    $trangThaiDisplay = 'Khách đã đặt, chưa đến';
+                    break;
+                    case 'phuc_vu':
+                    $badgeClass = 'bg-danger text-white';
+                    $trangThaiDisplay = 'Khách đang phục vụ';
+                    break;
+                    case 'da_xong':
+                    $badgeClass = 'bg-info text-white';
+                    $trangThaiDisplay = 'Đã xong';
+                    break;
+                    case 'khong_su_dung':
+                    $badgeClass = 'bg-secondary text-white';
+                    $trangThaiDisplay = 'Không sử dụng';
                     break;
                     }
                     @endphp
@@ -78,8 +94,8 @@
                             <div>{{ $ban->seats }} ghế</div>
                             <span class="badge {{ $badgeClass }}">{{ $trangThaiDisplay }}</span>
                             <div class="mt-2">
-                                <a href="{{ route('admin.tables.edit', $ban->id) }}" class="btn btn-xs btn-outline-warning"
-                                    title="Sửa bàn">
+                                <a href="{{ route('admin.tables.edit', $ban->id) }}"
+                                    class="btn btn-xs btn-outline-warning" title="Sửa bàn">
                                     <i class="fas fa-edit"></i>
                                 </a>
                                 <form action="{{ route('admin.tables.destroy', $ban->id) }}" method="POST"
@@ -90,13 +106,6 @@
                                         <i class="fas fa-trash-alt"></i>
                                     </button>
                                 </form>
-                                {{-- Nếu có QR code --}}
-                                {{-- <form action="{{ route('ban-an.qr', $ban->id) }}" method="POST" style="display:inline;">
-                                    @csrf
-                                    <button class="btn btn-xs btn-outline-info" title="Tạo lại QR">
-                                        <i class="fas fa-qrcode"></i>
-                                    </button>
-                                </form> --}}
                             </div>
                         </div>
                     </div>

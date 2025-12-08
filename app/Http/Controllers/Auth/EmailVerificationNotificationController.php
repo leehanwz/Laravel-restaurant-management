@@ -27,7 +27,7 @@ class EmailVerificationNotificationController extends Controller
                 case 4: // Quản lý bàn
                     return redirect()->route('table.dashboard');
                 case 5: // Khách
-                    return redirect()->intended(route('home'));
+                    return redirect()->intended(route('login'));
                 default:
                     return redirect('/'); // fallback
             }
