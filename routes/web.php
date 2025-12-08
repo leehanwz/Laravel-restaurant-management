@@ -4,95 +4,101 @@ use Illuminate\Support\Facades\Route;
 
 // Controllers
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\Admin\MenuController;
+use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\DrinkController;
+use App\Http\Controllers\Admin\ComboController;
+use App\Http\Controllers\Admin\ComboItemController;
+use App\Http\Controllers\Admin\AreaController;
+use App\Http\Controllers\Admin\TableController as AdminTableController;
 use App\Http\Controllers\Cashier\CashierController;
 use App\Http\Controllers\Kitchen\KitchenController;
-use App\Http\Controllers\Table\TableController;
+use App\Http\Controllers\Table\TableController; // Controller cho khách tại bàn
 use App\Http\Controllers\Customer\CustomerController;
 use App\Http\Controllers\Shop\HomeController;
+use App\Http\Controllers\ProfileController;
 
 // Breeze / auth routes
 require __DIR__ . '/auth.php';
 
 /*
 |--------------------------------------------------------------------------
-| CLIENT SITE
+| CLIENT SITE (Trang chủ chung)
 |--------------------------------------------------------------------------
 */
-
-// Trang chủ public
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 /*
 |--------------------------------------------------------------------------
-| ADMIN SITE (role 1)
+| ADMIN SITE (Role 1)
 |--------------------------------------------------------------------------
 */
 Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:1'])->group(function () {
     Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
 
-    // Ví dụ resource quản lý menu, product, drink, combo
-    Route::resource('menu', \App\Http\Controllers\Admin\MenuController::class);
-    Route::resource('product', \App\Http\Controllers\Admin\ProductController::class);
-    Route::resource('drink', \App\Http\Controllers\Admin\DrinkController::class);
-    Route::resource('combos', \App\Http\Controllers\Admin\ComboController::class);
+    // Quản lý Resource cơ bản
+    Route::resource('menu', MenuController::class);
+    Route::resource('product', ProductController::class);
+    Route::resource('drink', DrinkController::class);
+    Route::resource('combos', ComboController::class);
 
-    // Combo Item Management
-    Route::get('combos/items/select', [\App\Http\Controllers\Admin\ComboItemController::class, 'selectCombo'])
-        ->name('combos.items.selectCombo');
+    // --- Quản lý Combo Items (Viết gọn lại) ---
+    Route::controller(ComboItemController::class)->group(function () {
+        Route::get('combos/items/select', 'selectCombo')->name('combos.items.selectCombo');
 
-    Route::prefix('combos')->group(function () {
-        Route::get('{comboId}/items', [\App\Http\Controllers\Admin\ComboItemController::class, 'index'])
-            ->name('combos.items.index');
-        Route::post('items', [\App\Http\Controllers\Admin\ComboItemController::class, 'store'])
-            ->name('combos.items.store');
-        Route::put('items/{comboId}/{productId}', [\App\Http\Controllers\Admin\ComboItemController::class, 'update'])
-            ->name('combos.items.update');
-        Route::delete('items/{comboId}/{productId}', [\App\Http\Controllers\Admin\ComboItemController::class, 'destroy'])
-            ->name('combos.items.destroy');
+        Route::prefix('combos')->group(function () {
+            Route::get('{comboId}/items', 'index')->name('combos.items.index');
+            Route::post('items', 'store')->name('combos.items.store');
+            Route::put('items/{comboId}/{productId}', 'update')->name('combos.items.update');
+            Route::delete('items/{comboId}/{productId}', 'destroy')->name('combos.items.destroy');
+        });
     });
 
-    // Quản lý khu vực
-    Route::resource('areas', \App\Http\Controllers\Admin\AreaController::class);
-    Route::post('areas/{id}/restore', [\App\Http\Controllers\Admin\AreaController::class, 'restore'])
-        ->name('areas.restore');
-    // Quản lý bàn
-    Route::resource('tables', \App\Http\Controllers\Admin\TableController::class);
-    Route::post('tables/{id}/restore', [\App\Http\Controllers\Admin\TableController::class, 'restore'])
-        ->name('tables.restore');
-    // Form khu và bàn ăn chung   
-    Route::get('khu-vuc-ban-an', [\App\Http\Controllers\Admin\AreaController::class, 'dashboard'])->name('khu-vuc-ban-an');      
+    // --- Quản lý Khu vực & Bàn ---
+    Route::resource('areas', AreaController::class);
+    Route::post('areas/{id}/restore', [AreaController::class, 'restore'])->name('areas.restore');
+
+    Route::resource('tables', AdminTableController::class);
+    Route::post('tables/{id}/restore', [AdminTableController::class, 'restore'])->name('tables.restore');
+
+    // Dashboard chung cho Khu vực & Bàn
+    Route::get('khu-vuc-ban-an', [AreaController::class, 'dashboard'])->name('khu-vuc-ban-an');
 });
 
 /*
 |--------------------------------------------------------------------------
-| CASHIER SITE (role 2)
+| CASHIER SITE (Role 2)
 |--------------------------------------------------------------------------
+| Lưu ý: Admin (Role 1) vẫn vào được nhờ Middleware thông minh
 */
-// Route::prefix('cashier')->name('cashier.')->middleware(['auth', 'role:2'])->group(function () {
-//     Route::get('/dashboard', [CashierController::class, 'index'])->name('dashboard');
-// });
+Route::prefix('cashier')->name('cashier.')->middleware(['auth', 'role:2'])->group(function () {
+    Route::get('/dashboard', [CashierController::class, 'index'])->name('dashboard');
+    // Thêm các route bán hàng, thanh toán tại đây...
+});
 
 /*
 |--------------------------------------------------------------------------
-| KITCHEN SITE (role 3)
+| KITCHEN SITE (Role 3)
 |--------------------------------------------------------------------------
 */
-// Route::prefix('kitchen')->name('kitchen.')->middleware(['auth', 'role:3'])->group(function () {
-//     Route::get('/dashboard', [KitchenController::class, 'index'])->name('dashboard');
-// });
+Route::prefix('kitchen')->name('kitchen.')->middleware(['auth', 'role:3'])->group(function () {
+    Route::get('/dashboard', [KitchenController::class, 'index'])->name('dashboard');
+    // Thêm route cập nhật trạng thái món ăn...
+});
 
 /*
 |--------------------------------------------------------------------------
-| TABLE SITE (role 4)
+| TABLE QR ORDER SITE (Role 4) - Khách quét mã tại bàn
 |--------------------------------------------------------------------------
 */
-// Route::prefix('table')->name('table.')->middleware(['auth', 'role:4'])->group(function () {
-//     Route::get('/dashboard', [TableController::class, 'index'])->name('dashboard');
-// });
+Route::prefix('table')->name('table.')->middleware(['auth', 'role:4'])->group(function () {
+    Route::get('/dashboard', [TableController::class, 'index'])->name('dashboard');
+    // Thêm route gọi món...
+});
 
 /*
 |--------------------------------------------------------------------------
-| CUSTOMER SITE (role 5)
+| CUSTOMER SITE (Role 5) - Khách đặt online từ xa
 |--------------------------------------------------------------------------
 */
 Route::prefix('customer')->name('customer.')->middleware(['auth', 'role:5'])->group(function () {
@@ -101,18 +107,11 @@ Route::prefix('customer')->name('customer.')->middleware(['auth', 'role:5'])->gr
 
 /*
 |--------------------------------------------------------------------------
-| BREEZE DASHBOARD & PROFILE
+| PROFILE (Dùng chung cho mọi user đã login)
 |--------------------------------------------------------------------------
 */
-Route::get('/dashboard', function () {
-    // Nếu muốn có dashboard chung, ví dụ cho user đã verify email
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [App\Http\Controllers\ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [App\Http\Controllers\ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [App\Http\Controllers\ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
-
-

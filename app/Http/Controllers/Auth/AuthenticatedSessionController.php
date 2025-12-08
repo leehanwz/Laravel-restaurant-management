@@ -39,12 +39,16 @@ class AuthenticatedSessionController extends Controller
         switch ($user->role) {
             case 1: // Admin
                 return redirect()->intended(route('admin.dashboard'));
+                // Và có thể vào mọi nơi trong hệ thống
             case 2: // Thu ngân
                 return redirect()->intended(route('cashier.dashboard'));
+                // và trang chủ
             case 3: // Bếp
                 return redirect()->intended(route('kitchen.dashboard'));
+                //và trang chủ
             case 4: // Bàn
                 return redirect()->intended(route('table.dashboard'));
+                // và trang chủ
             case 5: // Khách
                 return redirect()->intended(route('home'));
             default:
